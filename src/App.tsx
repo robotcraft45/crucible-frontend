@@ -1,10 +1,7 @@
-import logo from './logo.svg';
-
 function App() {
   return (
     <div>
       <header>
-        <img src={logo} alt='logo' />
         <p>
           Edit <code>src/App.tsx</code> and save to reload.
         </p>
