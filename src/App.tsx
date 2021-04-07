@@ -1,11 +1,9 @@
 import { Flex, Box } from '@chakra-ui/layout';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import Footer from './components/footer';
 import Header from './components/header';
 import bg from './img/bg.jpg';
 
-const Footer = () => {
-  return <div>Footer</div>;
-};
 const Landing = () => {
   return <div>Landing</div>;
 };
