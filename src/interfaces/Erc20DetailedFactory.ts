@@ -15,7 +15,7 @@ export class Erc20DetailedFactory {
   }
 }
 
-const _abi = [
+export const _abi = [
   {
     constant: false,
     inputs: [

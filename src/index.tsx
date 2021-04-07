@@ -8,6 +8,7 @@ import { Web3Provider } from './context/web3';
 import { config } from './utils/config';
 import { NotifyProvider } from './context/web3/notify';
 import { NetworkStatsProvider } from './context/network';
+import { CruciblesProvider } from './context/crucibles';
 
 const { mistTokenAddress, lpTokenAddress, networkId } = config;
 
@@ -34,7 +35,9 @@ ReactDOM.render(
     >
       <NotifyProvider>
         <NetworkStatsProvider>
-          <App />
+          <CruciblesProvider>
+            <App />
+          </CruciblesProvider>
         </NetworkStatsProvider>
       </NotifyProvider>
     </Web3Provider>
