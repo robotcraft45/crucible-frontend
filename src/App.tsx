@@ -1,111 +1,65 @@
-import { useNetworkStats } from './context/network';
-import { useWeb3 } from './context/web3';
-import { networkName } from './utils/network';
+import { Box, Flex } from '@chakra-ui/layout';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import bg from './img/bg.jpg';
 
-const App = () => {
-  const {
-    address,
-    ethBalance,
-    network,
-    wallet,
-    onboard,
-    tokens,
-    checkIsReady,
-  } = useWeb3();
+const Header = () => {
+  return <div>Header</div>;
+};
+const Footer = () => {
+  return <div>Footer</div>;
+};
+const Landing = () => {
+  return <div>Landing</div>;
+};
+const CrucibleMinting = () => {
+  return <div>Crucible Minting</div>;
+};
+const Crucible = () => {
+  return <div>Crucible</div>;
+};
+const FAQ = () => {
+  return <div>FAQ</div>;
+};
+const NoMatch = () => {
+  return <div>No Match</div>;
+};
 
-  const { networkStats } = useNetworkStats();
-
-  const handleTransaction = async () => {
-    const isReady = await checkIsReady();
-    alert(isReady);
-  };
-
+const App: React.FC = ({ children }) => {
   return (
-    <div>
-      <main>
-        <header className='user-info'>
-          {address && <span>{address}</span>} <br />
-          {ethBalance != null && <span>{ethBalance} ETH</span>} <br />
-          {network && <span>{networkName(network)} network</span>}
-        </header>
-        <section className='main'>
-          <div className='container'>
-            <h2>Onboarding Users with Onboard.js</h2>
-            <div>
-              {!wallet?.provider && (
-                <button
-                  className='bn-demo-button'
-                  onClick={() => {
-                    onboard?.walletSelect();
-                  }}
-                >
-                  Select a Wallet
-                </button>
-              )}
-
-              {wallet?.provider && (
-                <button
-                  className='bn-demo-button'
-                  onClick={onboard?.walletCheck}
-                >
-                  Wallet Checks
-                </button>
-              )}
-
-              {wallet?.provider && (
-                <button
-                  className='bn-demo-button'
-                  onClick={() => onboard?.walletSelect()}
-                >
-                  Switch Wallets
-                </button>
-              )}
-
-              {wallet?.provider && (
-                <button className='bn-demo-button' onClick={handleTransaction}>
-                  Transact
-                </button>
-              )}
-
-              {wallet?.provider && (
-                <button
-                  className='bn-demo-button'
-                  onClick={onboard?.walletReset}
-                >
-                  Reset Wallet State
-                </button>
-              )}
-              {wallet?.provider && wallet?.dashboard && (
-                <button className='bn-demo-button' onClick={wallet.dashboard}>
-                  Open Wallet Dashboard
-                </button>
-              )}
-              {wallet?.provider && wallet.type === 'hardware' && address && (
-                <button
-                  className='bn-demo-button'
-                  onClick={onboard?.accountSelect}
-                >
-                  Switch Account
-                </button>
-              )}
-            </div>
-            <div>
-              <h1>Token Balances</h1>
-              {Object.keys(tokens).map((ta) => {
-                const t = tokens[ta];
-                console.log(t);
-                return (
-                  <div key={ta}>
-                    {t.name} - {t.balance}
-                  </div>
-                );
-              })}
-            </div>
-            <div>{JSON.stringify(networkStats)}</div>
-          </div>
-        </section>
-      </main>
-    </div>
+    <Flex
+      minHeight='100vh'
+      flexDirection='column'
+      backgroundSize='cover'
+      backgroundPosition='center'
+      backgroundRepeat='no-repeat'
+      background={`url(${bg})`}
+      position='relative'
+      overflow='hidden'
+      zIndex={0}
+    >
+      <Router>
+        <Header />
+        <Switch>
+          <Route exact path={process.env.PUBLIC_URL + '/'}>
+            <Landing />
+          </Route>
+          <Route exact path={process.env.PUBLIC_URL + '/crucible-minting'}>
+            <CrucibleMinting />
+          </Route>
+          <Route exact path={process.env.PUBLIC_URL + '/crucible'}>
+            <Crucible />
+          </Route>
+          <Route exact path={process.env.PUBLIC_URL + '/faqs'}>
+            <FAQ />
+          </Route>
+          <Route path='*'>
+            <NoMatch />
+          </Route>
+        </Switch>
+        <Box flexGrow={1}>{children}</Box>
+        <Footer />
+      </Router>
+    </Flex>
   );
 };
 
