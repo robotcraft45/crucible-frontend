@@ -1,3 +1,4 @@
+import { useNetworkStats } from './context/network';
 import { useWeb3 } from './context/web3';
 import { networkName } from './utils/network';
 
@@ -11,6 +12,8 @@ const App = () => {
     tokens,
     checkIsReady,
   } = useWeb3();
+
+  const { networkStats } = useNetworkStats();
 
   const handleTransaction = async () => {
     const isReady = await checkIsReady();
@@ -98,6 +101,7 @@ const App = () => {
                 );
               })}
             </div>
+            <div>{JSON.stringify(networkStats)}</div>
           </div>
         </section>
       </main>

@@ -7,6 +7,7 @@ import onboardConfig from './config/onboard';
 import { Web3Provider } from './context/web3';
 import { config } from './utils/config';
 import { NotifyProvider } from './context/web3/notify';
+import { NetworkStatsProvider } from './context/network';
 
 const { mistTokenAddress, lpTokenAddress, networkId } = config;
 
@@ -32,7 +33,9 @@ ReactDOM.render(
       }}
     >
       <NotifyProvider>
-        <App />
+        <NetworkStatsProvider>
+          <App />
+        </NetworkStatsProvider>
       </NotifyProvider>
     </Web3Provider>
   </React.StrictMode>,
