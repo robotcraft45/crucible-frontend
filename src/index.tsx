@@ -5,7 +5,7 @@ import reportWebVitals from './reportWebVitals';
 import onboardConfig from './config/onboard';
 
 import { Web3Provider } from './context/web3';
-import { config } from './utils/config';
+import { config } from './config/variables';
 import { NotifyProvider } from './context/web3/notify';
 import { NetworkStatsProvider } from './context/network';
 import { CruciblesProvider } from './context/crucibles';

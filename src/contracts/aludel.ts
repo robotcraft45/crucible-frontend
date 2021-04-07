@@ -1,6 +1,6 @@
 import { ethers, Signer } from 'ethers';
 import { formatUnits } from 'ethers/lib/utils';
-import { config } from '../utils/config';
+import { config } from '../config/variables';
 import { aludelAbi } from '../abi/aludelAbi';
 
 const { aludelAddress } = config;

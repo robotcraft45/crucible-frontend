@@ -1,6 +1,6 @@
 import { ethers, Signer } from 'ethers';
 import { formatUnits } from 'ethers/lib/utils';
-import { config } from '../utils/config';
+import { config } from '../config/variables';
 import { _abi } from '../interfaces/Erc20DetailedFactory';
 import { ChainId, Token, WETH, Fetcher } from '@uniswap/sdk';
 

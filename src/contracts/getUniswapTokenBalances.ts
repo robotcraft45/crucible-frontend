@@ -1,6 +1,6 @@
 import { ChainId, Token, TokenAmount, Pair } from '@uniswap/sdk';
 import { BigNumber } from 'ethers';
-import { config } from '../utils/config';
+import { config } from '../config/variables';
 
 const { lpTokenAddress, mistTokenAddress, wethAddress } = config;
 

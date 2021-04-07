@@ -1,4 +1,4 @@
-import { config } from '../utils/config';
+import { config } from './variables';
 import { Initialization } from 'bnc-onboard/dist/src/interfaces';
 
 const {

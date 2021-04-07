@@ -3,7 +3,7 @@ import { formatUnits } from 'ethers/lib/utils';
 import { crucibleAbi } from '../abi/crucibleAbi';
 import { crucibleFactoryAbi } from '../abi/crucibleFactoryAbi';
 import { _abi } from '../interfaces/Erc20DetailedFactory';
-import { config } from '../utils/config';
+import { config } from '../config/variables';
 
 export async function getOwnedCrucibles(signer: any, provider: any) {
   const { crucibleFactoryAddress, lpTokenAddress } = config;
