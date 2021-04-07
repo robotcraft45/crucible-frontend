@@ -1,4 +1,11 @@
-import { Network } from '../types';
+export enum Network {
+  MAINNET = 1,
+  ROPSTEN = 3,
+  RINKEBY = 4,
+  GOERLI = 5,
+  KOVAN = 42,
+  xDAI = 100,
+}
 
 export function networkName(networkId: Network) {
   switch (Number(networkId)) {

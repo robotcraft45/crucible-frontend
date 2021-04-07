@@ -1,4 +1,4 @@
-import { Network } from '../types';
+import { Network } from '../utils/network';
 
 export const config =
   process.env.REACT_APP_NETWORK_ID === '1'
