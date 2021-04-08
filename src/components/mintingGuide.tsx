@@ -26,14 +26,13 @@ const MintingGuide = () => {
       <Accordion allowMultiple mb={4}>
         <AccordionItem border='none'>
           <h2>
-            <AccordionButton px={0} fontWeight='semibold'>
+            <AccordionButton px={0} fontWeight='semibold' fontSize='xl'>
               <Box flex='1' textAlign='left'>
                 <HStack alignItems='top'>
                   <Text>1.</Text>
                   <Text>
-                    Add MIST-ETH liquidity on{' '}
                     <Link color='blue.400' href={uniswapPoolUrl} isExternal>
-                      Uniswap
+                      Provide liquidity
                     </Link>{' '}
                     to get LP tokens
                   </Text>
@@ -67,11 +66,11 @@ const MintingGuide = () => {
 
         <AccordionItem border='none'>
           <h2>
-            <AccordionButton px={0} fontWeight='semibold'>
+            <AccordionButton px={0} fontWeight='semibold' fontSize='xl'>
               <Box flex='1' textAlign='left'>
                 <HStack alignItems='top'>
                   <Text>2.</Text>
-                  <Text>Mint a Crucible and stake LP tokens</Text>
+                  <Text>Mint a Crucible using LP tokens</Text>
                 </HStack>
               </Box>
               <AccordionIcon bg='gray.700' borderRadius='100%' />
@@ -88,13 +87,11 @@ const MintingGuide = () => {
 
         <AccordionItem border='none'>
           <h2>
-            <AccordionButton px={0} fontWeight='semibold'>
+            <AccordionButton px={0} fontWeight='semibold' fontSize='xl'>
               <Box flex='1' textAlign='left'>
                 <HStack alignItems='top'>
                   <Text>3.</Text>
-                  <Text>
-                    View your accrued rewards and manage your Crucible
-                  </Text>
+                  <Text>Earn rewards with Crucible</Text>
                 </HStack>
               </Box>
               <AccordionIcon bg='gray.700' borderRadius='100%' />
