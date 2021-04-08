@@ -14,6 +14,12 @@ const CruciblesListView = () => {
 const MintingTabs = () => {
   const { crucibles, isLoading } = useCrucibles();
 
+  const tabProps = {
+    borderRadius: 'md',
+    fontWeight: 'bold',
+    _selected: { color: 'gray.800', bg: 'cyan.500' },
+  };
+
   if (isLoading) {
     return (
       <Flex justifyContent='center' alignItems='center' flexGrow={1}>
@@ -23,10 +29,10 @@ const MintingTabs = () => {
   }
 
   return (
-    <Tabs defaultIndex={crucibles && crucibles.length > 0 ? 1 : 0}>
-      <TabList>
-        <Tab>Mint</Tab>
-        <Tab>Crucibles</Tab>
+    <Tabs isFitted defaultIndex={crucibles && crucibles.length > 0 ? 1 : 0}>
+      <TabList bg='gray.700' borderRadius='lg' border='none' p={2}>
+        <Tab {...tabProps}>Mint</Tab>
+        <Tab {...tabProps}>Crucibles</Tab>
       </TabList>
 
       <TabPanels>
