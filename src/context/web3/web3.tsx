@@ -48,6 +48,7 @@ type Web3ContextType = {
   gasPrice: number;
   isReady: boolean;
   isMobile: boolean;
+  isLoading: boolean;
   network?: number;
   onboard?: OnboardApi;
   provider?: providers.Web3Provider;
@@ -82,6 +83,7 @@ const Web3Provider = ({
   const [wallet, setWallet] = useState<Wallet | undefined>(undefined);
   const [onboard, setOnboard] = useState<OnboardApi | undefined>(undefined);
   const [isReady, setIsReady] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const [tokens, tokensDispatch] = useReducer(tokensReducer, {});
   const [gasPrice, setGasPrice] = useState(0);
 
@@ -161,6 +163,13 @@ const Web3Provider = ({
 
     initializeOnboard();
     // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // Hacky solution
+  useEffect(() => {
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 400);
   }, []);
 
   // Gas Price poller
@@ -382,6 +391,7 @@ const Web3Provider = ({
         wallet: wallet,
         onboard: onboard,
         isReady: isReady,
+        isLoading: isLoading,
         checkIsReady,
         resetOnboard,
         gasPrice,
