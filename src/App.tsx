@@ -1,26 +1,15 @@
-import { Flex, Box } from '@chakra-ui/layout';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { Flex, Box } from '@chakra-ui/layout';
 import Footer from './components/footer';
 import Header from './components/header';
 import bg from './img/bg.jpg';
+import Faqs from './pages/faqs';
+import Landing from './pages/landing';
+import NoMatch from './pages/noMatch';
+import CrucibleDetail from './pages/crucibleDetail';
+import CrucibleMinting from './pages/crucibleMinting';
 
-const Landing = () => {
-  return <div>Landing</div>;
-};
-const CrucibleMinting = () => {
-  return <div>Crucible Minting</div>;
-};
-const Crucible = () => {
-  return <div>Crucible</div>;
-};
-const FAQ = () => {
-  return <div>FAQ</div>;
-};
-const NoMatch = () => {
-  return <div>No Match</div>;
-};
-
-const App: React.FC = ({ children }) => {
+const App: React.FC = () => {
   return (
     <Flex
       px={4}
@@ -29,6 +18,7 @@ const App: React.FC = ({ children }) => {
       background={`url(${bg})`}
       backgroundPosition='center'
       backgroundRepeat='no-repeat'
+      backgroundAttachment='fixed'
       backgroundSize='cover'
     >
       <Router>
@@ -42,10 +32,10 @@ const App: React.FC = ({ children }) => {
               <CrucibleMinting />
             </Route>
             <Route exact path={process.env.PUBLIC_URL + '/crucible'}>
-              <Crucible />
+              <CrucibleDetail />
             </Route>
             <Route exact path={process.env.PUBLIC_URL + '/faqs'}>
-              <FAQ />
+              <Faqs />
             </Route>
             <Route path='*'>
               <NoMatch />
