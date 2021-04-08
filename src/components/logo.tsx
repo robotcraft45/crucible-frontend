@@ -8,7 +8,7 @@ type Props = {
   widthList?: number[];
 };
 
-const Logo: React.FC<Props> = ({ widthList = [200] }) => {
+const Logo: React.FC<Props> = ({ widthList = ['140px', '140px', '200px'] }) => {
   return (
     <LinkBox>
       <LinkOverlay as={Link} to='/'>

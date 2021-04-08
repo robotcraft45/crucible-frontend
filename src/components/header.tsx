@@ -5,11 +5,11 @@ import Logo from './logo';
 
 const Header = () => {
   return (
-    <SimpleGrid columns={3} py={4}>
+    <SimpleGrid columns={[2, null, null, 3]} py={4} alignItems='center'>
       <Box>
         <Logo />
       </Box>
-      <Box>
+      <Box display={['none', null, null, 'block']}>
         <Flex justifyContent='center'>
           <UserBalance />
         </Flex>
