@@ -2,10 +2,7 @@ import { Flex } from '@chakra-ui/layout';
 import { Spinner } from '@chakra-ui/spinner';
 import { useCrucibles } from '../context/crucibles';
 import { Tab, TabList, TabPanel, TabPanels, Tabs } from '@chakra-ui/tabs';
-
-const MintingForm = () => {
-  return <div>Minting form</div>;
-};
+import MintingForm from './mintingForm';
 
 const CruciblesListView = () => {
   return <div>Crucibles list view</div>;
@@ -15,7 +12,7 @@ const MintingTabs = () => {
   const { crucibles, isLoading } = useCrucibles();
 
   const tabProps = {
-    borderRadius: 'md',
+    borderRadius: 'lg',
     fontWeight: 'bold',
     _selected: { color: 'gray.800', bg: 'cyan.500' },
   };
@@ -30,16 +27,16 @@ const MintingTabs = () => {
 
   return (
     <Tabs isFitted defaultIndex={crucibles && crucibles.length > 0 ? 1 : 0}>
-      <TabList bg='gray.700' borderRadius='lg' border='none' p={2}>
+      <TabList bg='gray.700' borderRadius='xl' border='none' p={2}>
         <Tab {...tabProps}>Mint</Tab>
         <Tab {...tabProps}>Crucibles</Tab>
       </TabList>
 
       <TabPanels>
-        <TabPanel>
+        <TabPanel px={0}>
           <MintingForm />
         </TabPanel>
-        <TabPanel>
+        <TabPanel px={0}>
           <CruciblesListView />
         </TabPanel>
       </TabPanels>

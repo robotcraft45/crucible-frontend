@@ -16,7 +16,7 @@ const CrucibleMinting = () => {
         mt={[32, 32, 40]}
         textAlign='center'
         width={['100%', '100%', 480]}
-        borderRadius='2xl'
+        borderRadius='3xl'
         boxShadow='xl'
         minH='400px'
       >
