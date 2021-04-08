@@ -1,9 +1,8 @@
-import { Box, Center, Flex } from '@chakra-ui/layout';
+import { Center, Flex } from '@chakra-ui/layout';
 import { Spinner } from '@chakra-ui/spinner';
-import MintingGuide from '../components/mintingGuide';
 import { useWeb3 } from '../context/web3';
-
-const MintingForm = () => <div>Select LP balance</div>;
+import MintingTabs from '../components/mintingTabs';
+import MintingGuide from '../components/mintingGuide';
 
 const CrucibleMinting = () => {
   const { address, isLoading } = useWeb3();
@@ -17,7 +16,7 @@ const CrucibleMinting = () => {
         mt={[32, 32, 40]}
         textAlign='center'
         width={['100%', '100%', 480]}
-        borderRadius='xl'
+        borderRadius='2xl'
         boxShadow='xl'
         minH='400px'
       >
@@ -28,7 +27,7 @@ const CrucibleMinting = () => {
         ) : !address ? (
           <MintingGuide />
         ) : (
-          <MintingForm />
+          <MintingTabs />
         )}
       </Flex>
     </Center>

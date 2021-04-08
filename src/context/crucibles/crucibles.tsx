@@ -34,7 +34,8 @@ type CruciblesProps = {
 };
 
 type CruciblesContextType = {
-  crucibles: Crucible[];
+  isLoading: boolean;
+  crucibles: Crucible[] | undefined;
   tokenBalances: TokenBalances | undefined;
   reloadCrucibles(): void;
 };
@@ -45,13 +46,15 @@ const Crucibles = React.createContext<CruciblesContextType | undefined>(
 
 const CruciblesProvider = ({ children }: CruciblesProps) => {
   const { provider, wallet, address, network } = useWeb3();
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const [refreshCrucibles, setRefreshCrucibles] = useState<boolean>(false);
   const [tokenBalances, setTokenBalances] = useState<TokenBalances | undefined>(
     undefined
   );
-  const [crucibles, setCrucibles] = useState<Crucible[]>([]);
+  const [crucibles, setCrucibles] = useState<Crucible[] | undefined>(undefined);
 
   useEffect(() => {
+    setIsLoading(true);
     if (provider && wallet && network && address) {
       const signer = provider?.getSigner();
       getTokenBalances(signer, address as string, network).then(
@@ -60,7 +63,7 @@ const CruciblesProvider = ({ children }: CruciblesProps) => {
         }
       );
     } else {
-      setCrucibles([]);
+      setCrucibles(undefined);
       setTokenBalances(undefined);
     }
   }, [provider, wallet, network, address]);
@@ -68,28 +71,34 @@ const CruciblesProvider = ({ children }: CruciblesProps) => {
   useEffect(() => {
     if (tokenBalances && provider && network) {
       const signer = provider?.getSigner();
-      getOwnedCrucibles(signer, provider).then((ownedCrucibles: Crucible[]) => {
-        let reformatted = ownedCrucibles.map((crucible) => ({
-          ...crucible,
-          cleanBalance: formatUnits(crucible.balance),
-          cleanLockedBalance: formatUnits(crucible.lockedBalance),
-          cleanUnlockedBalance: formatUnits(
-            crucible.balance.sub(crucible.lockedBalance)
-          ),
-          mistPrice: tokenBalances.mistPrice,
-          wethPrice: tokenBalances.wethPrice,
-          ...getUniswapBalances(
-            crucible.balance,
-            tokenBalances.lpMistBalance,
-            tokenBalances.lpWethBalance,
-            tokenBalances.totalLpSupply,
-            tokenBalances.wethPrice,
-            tokenBalances.mistPrice,
-            network
-          ),
-        }));
-        setCrucibles(reformatted);
-      });
+      getOwnedCrucibles(signer, provider)
+        .then((ownedCrucibles: Crucible[]) => {
+          let reformatted = ownedCrucibles.map((crucible) => ({
+            ...crucible,
+            cleanBalance: formatUnits(crucible.balance),
+            cleanLockedBalance: formatUnits(crucible.lockedBalance),
+            cleanUnlockedBalance: formatUnits(
+              crucible.balance.sub(crucible.lockedBalance)
+            ),
+            mistPrice: tokenBalances.mistPrice,
+            wethPrice: tokenBalances.wethPrice,
+            ...getUniswapBalances(
+              crucible.balance,
+              tokenBalances.lpMistBalance,
+              tokenBalances.lpWethBalance,
+              tokenBalances.totalLpSupply,
+              tokenBalances.wethPrice,
+              tokenBalances.mistPrice,
+              network
+            ),
+          }));
+          setCrucibles(reformatted);
+          setIsLoading(false);
+        })
+        .catch((e) => {
+          console.log(e);
+          setIsLoading(false);
+        });
       setRefreshCrucibles(false);
     }
   }, [tokenBalances, provider, network, refreshCrucibles]);
@@ -102,6 +111,7 @@ const CruciblesProvider = ({ children }: CruciblesProps) => {
     <Crucibles.Provider
       value={{
         crucibles,
+        isLoading,
         tokenBalances,
         reloadCrucibles,
       }}
