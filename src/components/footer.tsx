@@ -37,7 +37,7 @@ const Footer = () => {
         </HStack>
         <HStack spacing={4}>
           {internalLinks.map((link) => (
-            <ChakraLink as={Link} to={link.to}>
+            <ChakraLink key={link.label} as={Link} to={link.to}>
               {link.label}
             </ChakraLink>
           ))}
