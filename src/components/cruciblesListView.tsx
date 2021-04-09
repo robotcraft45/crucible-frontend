@@ -1,6 +1,8 @@
+import { VStack } from '@chakra-ui/layout';
 import { useEffect } from 'react';
 import { useCrucibles } from '../context/crucibles';
 import { useWeb3 } from '../context/web3';
+import CrucibleCard from './crucibleCard';
 import MissingCrucibles from './missingCrucibles';
 
 const CruciblesListView = () => {
@@ -16,7 +18,20 @@ const CruciblesListView = () => {
     return <MissingCrucibles />;
   }
 
-  return <div>{crucibles && crucibles?.length}</div>;
+  return (
+    <VStack align='stretch' spacing={4}>
+      {crucibles &&
+        crucibles.map((crucible) => {
+          return (
+            <CrucibleCard
+              key={crucible.id}
+              crucible={crucible}
+              isExpanded={crucibles.length === 1}
+            />
+          );
+        })}
+    </VStack>
+  );
 };
 
 export default CruciblesListView;

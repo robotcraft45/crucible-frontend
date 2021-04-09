@@ -7,7 +7,7 @@ import { getTokenBalances } from '../../contracts/getTokenBalances';
 import { getOwnedCrucibles } from '../../contracts/getOwnedCrucibles';
 import { getUniswapBalances } from '../../contracts/getUniswapTokenBalances';
 
-type Crucible = {
+export type Crucible = {
   id: string;
   balance: string | any;
   lockedBalance: string;
