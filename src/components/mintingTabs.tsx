@@ -3,10 +3,7 @@ import { Spinner } from '@chakra-ui/spinner';
 import { useCrucibles } from '../context/crucibles';
 import { Tab, TabList, TabPanel, TabPanels, Tabs } from '@chakra-ui/tabs';
 import MintingForm from './mintingForm';
-
-const CruciblesListView = () => {
-  return <div>Crucibles list view</div>;
-};
+import CruciblesListView from './cruciblesListView';
 
 const MintingTabs = () => {
   const { crucibles, isLoading } = useCrucibles();
