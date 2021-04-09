@@ -1,6 +1,5 @@
-import { Link } from 'react-router-dom';
 import { IconButton } from '@chakra-ui/button';
-import { externalLinks, internalLinks } from '../config/links';
+import { externalLinks } from '../config/links';
 import { Center, HStack, VStack, Link as ChakraLink } from '@chakra-ui/layout';
 
 const Footer = () => {
@@ -35,13 +34,13 @@ const Footer = () => {
             </ChakraLink>
           ))}
         </HStack>
-        <HStack spacing={4}>
+        {/* <HStack spacing={4}>
           {internalLinks.map((link) => (
             <ChakraLink key={link.label} as={Link} to={link.to}>
               {link.label}
             </ChakraLink>
           ))}
-        </HStack>
+        </HStack> */}
       </VStack>
     </Center>
   );

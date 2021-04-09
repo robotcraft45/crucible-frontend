@@ -3,7 +3,7 @@ import { Flex, Box } from '@chakra-ui/layout';
 import Footer from './components/footer';
 import Header from './components/header';
 import bg from './img/bg.jpg';
-import Faqs from './pages/faqs';
+// import Faqs from './pages/faqs';
 // import Landing from './pages/landing';
 import NoMatch from './pages/noMatch';
 import CrucibleDetail from './pages/crucibleDetail';
@@ -34,9 +34,9 @@ const App: React.FC = () => {
             <Route exact path={process.env.PUBLIC_URL + '/crucible'}>
               <CrucibleDetail />
             </Route>
-            <Route exact path={process.env.PUBLIC_URL + '/faqs'}>
+            {/* <Route exact path={process.env.PUBLIC_URL + '/faqs'}>
               <Faqs />
-            </Route>
+            </Route> */}
             <Route path='*'>
               <NoMatch />
             </Route>

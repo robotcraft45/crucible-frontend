@@ -39,8 +39,8 @@ export const internalLinks = [
     label: 'Crucible minting',
     to: '/',
   },
-  {
-    label: 'FAQs',
-    to: '/faqs',
-  },
+  // {
+  //   label: 'FAQs',
+  //   to: '/faqs',
+  // },
 ];
