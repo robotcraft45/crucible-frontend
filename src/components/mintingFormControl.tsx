@@ -17,10 +17,11 @@ import { useNotify, useWeb3 } from '../context/web3';
 import { mintAndLock } from '../contracts/alchemist';
 
 const MintingFormControl = () => {
+  const [step, setStep] = useState(0);
+  const [value, setValue] = useState('0');
   const { checkIsReady, provider } = useWeb3();
   const { monitorTx } = useNotify();
   const toast = useToast();
-  const [value, setValue] = useState('0');
 
   const handleChange = (value: number) => setValue(value.toString());
 
@@ -37,12 +38,15 @@ const MintingFormControl = () => {
       try {
         const lpBalance = value.toString();
         const signer = provider?.getSigner() as Signer;
+        const incrementStep = () => setStep((currStep) => currStep + 1);
         const hash: string = await mintAndLock(
           signer,
           provider as providers.Web3Provider,
-          lpBalance
+          lpBalance,
+          incrementStep
         );
         monitorTx(hash);
+        setStep(0);
       } catch (e) {
         toast({
           title: 'Error',
@@ -52,6 +56,7 @@ const MintingFormControl = () => {
           duration: 9000,
           isClosable: true,
         });
+        setStep(0);
       }
     }
   };
@@ -63,6 +68,7 @@ const MintingFormControl = () => {
     return (
       !value ||
       value === '0' ||
+      step > 0 ||
       Number(value) > Number(tokens[lpTokenAddress].balance)
     );
   };
@@ -116,10 +122,11 @@ const MintingFormControl = () => {
             </Box>
           </Box>
         </Box>
-        {/* TODO */}
-        <Box mb={4}>
-          Signed <strong>0</strong> of <strong>3</strong> transactions
-        </Box>
+        {step > 0 && (
+          <Box mb={4}>
+            Signed <strong>{step}</strong> of <strong>3</strong> transactions
+          </Box>
+        )}
       </LightMode>
       <Button
         size='lg'

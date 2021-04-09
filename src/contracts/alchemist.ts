@@ -13,7 +13,8 @@ const { aludelAddress, crucibleFactoryAddress, transmuterAddress } = config;
 export async function mintAndLock(
   signer: Signer,
   provider: providers.Web3Provider,
-  rawAmount: string
+  rawAmount: string,
+  incrementStep: () => void
 ): Promise<string> {
   const args = {
     aludel: aludelAddress,
@@ -73,6 +74,7 @@ export async function mintAndLock(
     deadline
   );
 
+  incrementStep();
   console.log('Sign Lock');
 
   const permission = await signPermission(
@@ -85,7 +87,9 @@ export async function mintAndLock(
     0
   );
 
+  incrementStep();
   console.log('Mint, Deposit, Stake');
+
   try {
     const tx = await transmuter.mintCruciblePermitAndStake(
       aludel.address,
@@ -95,10 +99,11 @@ export async function mintAndLock(
       permit,
       permission
     );
+
+    incrementStep();
     console.log('  in', tx.hash);
     return tx.hash;
   } catch (e) {
-    alert(e.message);
     throw e;
   }
 }
