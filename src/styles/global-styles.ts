@@ -9,4 +9,7 @@ export const GlobalStyles = css`
     outline: none;
     box-shadow: none;
   }
+  .bn-onboard-modal {
+    z-index: 999;
+  }
 `;
