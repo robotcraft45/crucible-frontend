@@ -31,13 +31,13 @@ export const externalLinks = [
 ];
 
 export const internalLinks = [
-  {
-    label: 'Home',
-    to: '/',
-  },
+  // {
+  //   label: 'Home',
+  //   to: '/',
+  // },
   {
     label: 'Crucible minting',
-    to: '/crucible-minting',
+    to: '/',
   },
   {
     label: 'FAQs',

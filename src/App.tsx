@@ -4,7 +4,7 @@ import Footer from './components/footer';
 import Header from './components/header';
 import bg from './img/bg.jpg';
 import Faqs from './pages/faqs';
-import Landing from './pages/landing';
+// import Landing from './pages/landing';
 import NoMatch from './pages/noMatch';
 import CrucibleDetail from './pages/crucibleDetail';
 import CrucibleMinting from './pages/crucibleMinting';
@@ -25,10 +25,10 @@ const App: React.FC = () => {
         <Header />
         <Box flexGrow={1}>
           <Switch>
-            <Route exact path={process.env.PUBLIC_URL + '/'}>
+            {/* <Route exact path={process.env.PUBLIC_URL + '/'}>
               <Landing />
-            </Route>
-            <Route exact path={process.env.PUBLIC_URL + '/crucible-minting'}>
+            </Route> */}
+            <Route exact path={process.env.PUBLIC_URL + '/'}>
               <CrucibleMinting />
             </Route>
             <Route exact path={process.env.PUBLIC_URL + '/crucible'}>
