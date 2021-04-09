@@ -12,6 +12,7 @@ import {
 import { Alert } from '@chakra-ui/alert';
 import { useWeb3 } from '../context/web3';
 import { config } from '../config/variables';
+import WelcomeToast from './welcomeToast';
 
 const MintingGuide = () => {
   const { onboard } = useWeb3();
@@ -110,6 +111,7 @@ const MintingGuide = () => {
       <Button size='lg' isFullWidth onClick={() => onboard?.walletSelect()}>
         Connect wallet
       </Button>
+      <WelcomeToast />
     </Box>
   );
 };
