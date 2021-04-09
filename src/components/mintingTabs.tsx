@@ -1,4 +1,4 @@
-import { Flex } from '@chakra-ui/layout';
+import { Box, Flex, Heading } from '@chakra-ui/layout';
 import { Spinner } from '@chakra-ui/spinner';
 import { useCrucibles } from '../context/crucibles';
 import { Tab, TabList, TabPanel, TabPanels, Tabs } from '@chakra-ui/tabs';
@@ -23,21 +23,26 @@ const MintingTabs = () => {
   }
 
   return (
-    <Tabs isFitted defaultIndex={crucibles && crucibles.length > 0 ? 1 : 0}>
-      <TabList bg='gray.700' borderRadius='xl' border='none' p={2}>
-        <Tab {...tabProps}>Mint</Tab>
-        <Tab {...tabProps}>Crucibles</Tab>
-      </TabList>
+    <Box position='relative'>
+      <Heading top='-100px' position='absolute' width='100%'>
+        Minting Crucibles
+      </Heading>
+      <Tabs isFitted defaultIndex={crucibles && crucibles.length > 0 ? 1 : 0}>
+        <TabList bg='gray.700' borderRadius='xl' border='none' p={2}>
+          <Tab {...tabProps}>Mint</Tab>
+          <Tab {...tabProps}>Crucibles</Tab>
+        </TabList>
 
-      <TabPanels>
-        <TabPanel px={0}>
-          <MintingForm />
-        </TabPanel>
-        <TabPanel px={0}>
-          <CruciblesListView />
-        </TabPanel>
-      </TabPanels>
-    </Tabs>
+        <TabPanels>
+          <TabPanel px={0}>
+            <MintingForm />
+          </TabPanel>
+          <TabPanel px={0}>
+            <CruciblesListView />
+          </TabPanel>
+        </TabPanels>
+      </Tabs>
+    </Box>
   );
 };
 
