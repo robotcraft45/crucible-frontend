@@ -8,24 +8,64 @@ import {
   SliderTrack,
   SliderFilledTrack,
 } from '@chakra-ui/slider';
+import { useToast } from '@chakra-ui/toast';
+import { Signer } from '@ethersproject/abstract-signer';
+import { providers } from 'ethers';
 import { useState } from 'react';
 import { config } from '../config/variables';
-import { useWeb3 } from '../context/web3';
+import { useNotify, useWeb3 } from '../context/web3';
+import { mintAndLock } from '../contracts/alchemist';
 
 const MintingFormControl = () => {
-  const [value, setValue] = useState(0);
+  const { checkIsReady, provider } = useWeb3();
+  const { monitorTx } = useNotify();
+  const toast = useToast();
+  const [value, setValue] = useState('0');
 
-  const handleChange = (value: number) => setValue(value);
+  const handleChange = (value: number) => setValue(value.toString());
 
-  const handleNumberInputChange = (
-    valueAsString: string,
-    valueAsNumber: number
-  ) => {
-    handleChange(valueAsNumber || 0);
+  const handleNumberInputChange = (valueAsString: string) => {
+    if (isNaN(+valueAsString)) return;
+    setValue(valueAsString);
+  };
+
+  // TODO add a message to the signature request
+  const handleMintCrucible = async () => {
+    const isReady = await checkIsReady();
+
+    if (isReady) {
+      try {
+        const lpBalance = value.toString();
+        const signer = provider?.getSigner() as Signer;
+        const hash: string = await mintAndLock(
+          signer,
+          provider as providers.Web3Provider,
+          lpBalance
+        );
+        monitorTx(hash);
+      } catch (e) {
+        toast({
+          title: 'Error',
+          position: 'top',
+          description: e.message,
+          status: 'error',
+          duration: 9000,
+          isClosable: true,
+        });
+      }
+    }
   };
 
   const { tokens } = useWeb3();
   const { lpTokenAddress } = config;
+
+  const isDisabled = () => {
+    return (
+      !value ||
+      value === '0' ||
+      Number(value) > Number(tokens[lpTokenAddress].balance)
+    );
+  };
 
   return (
     <Box>
@@ -64,7 +104,7 @@ const MintingFormControl = () => {
                 step={0.1}
                 min={0}
                 max={Number(tokens[lpTokenAddress].balance.toFixed(3))}
-                value={value}
+                value={Number(value)}
                 onChange={handleChange}
                 focusThumbOnChange={false}
               >
@@ -76,8 +116,17 @@ const MintingFormControl = () => {
             </Box>
           </Box>
         </Box>
+        {/* TODO */}
+        <Box mb={4}>
+          Signed <strong>0</strong> of <strong>3</strong> transactions
+        </Box>
       </LightMode>
-      <Button size='lg' isFullWidth disabled={!value}>
+      <Button
+        size='lg'
+        isFullWidth
+        disabled={isDisabled()}
+        onClick={handleMintCrucible}
+      >
         Mint a crucible
       </Button>
     </Box>
