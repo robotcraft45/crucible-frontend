@@ -4,17 +4,22 @@ import { config } from '../config/variables';
 import pot from '../img/pot.png';
 
 const MissingIngredients = () => {
-  const { uniswapPoolUrl } = config;
+  const { uniswapPoolUrl, getMistUrl } = config;
   return (
     <Box textAlign='center'>
       <Image src={pot} height='220px' htmlHeight='220px' mx='auto' my={8} />
       <Heading size='lg'>Missing ingredients</Heading>
       <Text color='gray.200' my={3}>
-        It looks like you have no Liquidty Pool tokens. You need LP tokens to
-        mint a crucible.{' '}
+        You need MIST-ETH LP tokens to mint a Crucible. Get them by adding MIST
+        and ETH to the{' '}
         <Link color='blue.400' href={uniswapPoolUrl}>
-          Get LP tokens on uniswap.
+          Uniswap pool.
+        </Link>{' '}
+        If you don't have any MIST tokens, you can purchase them{' '}
+        <Link color='blue.400' href={getMistUrl}>
+          here
         </Link>
+        .
       </Text>
     </Box>
   );
