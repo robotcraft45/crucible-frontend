@@ -8,20 +8,19 @@ import {
   SliderTrack,
   SliderFilledTrack,
 } from '@chakra-ui/slider';
-import { useToast } from '@chakra-ui/toast';
 import { Signer } from '@ethersproject/abstract-signer';
 import { providers } from 'ethers';
 import { useState } from 'react';
 import { config } from '../config/variables';
 import { useNotify, useWeb3 } from '../context/web3';
 import { mintAndLock } from '../contracts/alchemist';
+import { notifyTxCancelled, notifyTxStep } from '../utils/notifyTx';
 
 const MintingFormControl = () => {
-  const [step, setStep] = useState(0);
+  const [completedSteps, setCompletedSteps] = useState(0);
   const [value, setValue] = useState('0');
   const { checkIsReady, provider } = useWeb3();
-  const { monitorTx } = useNotify();
-  const toast = useToast();
+  const { monitorTx, notify } = useNotify();
 
   const handleChange = (value: number) => setValue(value.toString());
 
@@ -30,7 +29,6 @@ const MintingFormControl = () => {
     setValue(valueAsString);
   };
 
-  // TODO add a message to the signature request
   const handleMintCrucible = async () => {
     const isReady = await checkIsReady();
 
@@ -38,25 +36,21 @@ const MintingFormControl = () => {
       try {
         const lpBalance = value.toString();
         const signer = provider?.getSigner() as Signer;
-        const incrementStep = () => setStep((currStep) => currStep + 1);
+        const handleStepChange = (step: number) => {
+          notifyTxStep(notify, step);
+          setCompletedSteps(step);
+        };
         const hash: string = await mintAndLock(
           signer,
           provider as providers.Web3Provider,
           lpBalance,
-          incrementStep
+          handleStepChange
         );
         monitorTx(hash);
-        setStep(0);
+        setCompletedSteps(0);
       } catch (e) {
-        toast({
-          title: 'Error',
-          position: 'top',
-          description: e.message,
-          status: 'error',
-          duration: 9000,
-          isClosable: true,
-        });
-        setStep(0);
+        notifyTxCancelled(notify, e.message);
+        setCompletedSteps(0);
       }
     }
   };
@@ -68,7 +62,7 @@ const MintingFormControl = () => {
     return (
       !value ||
       value === '0' ||
-      step > 0 ||
+      completedSteps > 0 ||
       Number(value) > Number(tokens[lpTokenAddress].balance)
     );
   };
@@ -122,9 +116,10 @@ const MintingFormControl = () => {
             </Box>
           </Box>
         </Box>
-        {step > 0 && (
+        {completedSteps > 0 && (
           <Box mb={4}>
-            Signed <strong>{step}</strong> of <strong>3</strong> transactions
+            Signed <strong>{completedSteps}</strong> of <strong>3</strong>{' '}
+            transactions
           </Box>
         )}
       </LightMode>

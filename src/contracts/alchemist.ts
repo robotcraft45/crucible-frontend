@@ -14,7 +14,7 @@ export async function mintAndLock(
   signer: Signer,
   provider: providers.Web3Provider,
   rawAmount: string,
-  incrementStep: () => void
+  handleStepChange: (step: number) => void
 ): Promise<string> {
   const args = {
     aludel: aludelAddress,
@@ -74,7 +74,7 @@ export async function mintAndLock(
     deadline
   );
 
-  incrementStep();
+  handleStepChange(1);
   console.log('Sign Lock');
 
   const permission = await signPermission(
@@ -87,7 +87,7 @@ export async function mintAndLock(
     0
   );
 
-  incrementStep();
+  handleStepChange(2);
   console.log('Mint, Deposit, Stake');
 
   try {
@@ -100,8 +100,8 @@ export async function mintAndLock(
       permission
     );
 
-    incrementStep();
     console.log('  in', tx.hash);
+
     return tx.hash;
   } catch (e) {
     throw e;
