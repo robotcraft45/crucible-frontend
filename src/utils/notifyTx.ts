@@ -1,7 +1,6 @@
 import { API as NotifyAPI } from 'bnc-notify';
 
 export const notifyTxStep = (notify: NotifyAPI | undefined, step: number) => {
-  alert(step);
   switch (step) {
     case 1:
       notify?.notification({
