@@ -23,6 +23,7 @@ const NotifyContext = React.createContext<Web3ContextType | undefined>(
 
 const NotifyProvider = ({ children }: NotifyContextProps) => {
   const { network } = useWeb3();
+  const [pendingTxs, setPendingTxs] = useState<Transaction[]>([]);
   const [notify, setNotify] = useState<NotifyAPI | undefined>(undefined);
 
   useEffect(() => {
@@ -34,6 +35,7 @@ const NotifyProvider = ({ children }: NotifyContextProps) => {
     if (notify && network) {
       const { emitter } = notify.hash(hash);
       emitter.on('txPool', (transaction: Transaction) => {
+        setPendingTxs([...pendingTxs, { ...transaction }]);
         return {
           message: `Your transaction is pending, click <a href="https://${networkName(
             network
@@ -44,10 +46,19 @@ const NotifyProvider = ({ children }: NotifyContextProps) => {
       });
 
       emitter.on('txSent', console.log);
-      emitter.on('txConfirmed', console.log);
+      emitter.on('txConfirmed', (transaction) => {
+        setPendingTxs(pendingTxs.filter((tx) => tx.hash !== transaction.hash));
+        console.log(transaction);
+      });
       emitter.on('txSpeedUp', console.log);
-      emitter.on('txCancel', console.log);
-      emitter.on('txFailed', console.log);
+      emitter.on('txCancel', (transaction) => {
+        setPendingTxs(pendingTxs.filter((tx) => tx.hash !== transaction.hash));
+        console.log(transaction);
+      });
+      emitter.on('txFailed', (transaction) => {
+        setPendingTxs(pendingTxs.filter((tx) => tx.hash !== transaction.hash));
+        console.log(transaction);
+      });
     } else {
       console.log('Notify not initialized');
     }
@@ -59,6 +70,7 @@ const NotifyProvider = ({ children }: NotifyContextProps) => {
         monitorTx,
       }}
     >
+      {pendingTxs.length > 0 && pendingTxs.length}
       {children}
     </NotifyContext.Provider>
   );
