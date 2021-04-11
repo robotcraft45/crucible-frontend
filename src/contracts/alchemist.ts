@@ -63,6 +63,7 @@ export async function mintAndLock(
     signer
   );
 
+  handleStepChange(1);
   console.log('Sign Permit');
 
   const permit = await signPermitEIP2612(
@@ -74,7 +75,7 @@ export async function mintAndLock(
     deadline
   );
 
-  handleStepChange(1);
+  handleStepChange(2);
   console.log('Sign Lock');
 
   const permission = await signPermission(
@@ -87,7 +88,7 @@ export async function mintAndLock(
     0
   );
 
-  handleStepChange(2);
+  handleStepChange(3);
   console.log('Mint, Deposit, Stake');
 
   try {

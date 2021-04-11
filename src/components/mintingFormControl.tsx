@@ -14,13 +14,17 @@ import { useState } from 'react';
 import { config } from '../config/variables';
 import { useNotify, useWeb3 } from '../context/web3';
 import { mintAndLock } from '../contracts/alchemist';
-import { notifyTxCancelled, notifyTxStep } from '../utils/notifyTx';
+import TxProgressModal from './modals/txProgressModal';
+import TxRejectedModal from './modals/txRejectedModal';
+import TxSentModal from './modals/txSentModal';
 
 const MintingFormControl = () => {
-  const [completedSteps, setCompletedSteps] = useState(0);
+  const [currentStep, setCurrentStep] = useState(0);
+  const [txSent, setTxSent] = useState('');
+  const [txRejected, setTxRejected] = useState(false);
   const [value, setValue] = useState('0');
   const { checkIsReady, provider } = useWeb3();
-  const { monitorTx, notify } = useNotify();
+  const { monitorTx } = useNotify();
 
   const handleChange = (value: number) => setValue(value.toString());
 
@@ -37,8 +41,7 @@ const MintingFormControl = () => {
         const lpBalance = value.toString();
         const signer = provider?.getSigner() as Signer;
         const handleStepChange = (step: number) => {
-          notifyTxStep(notify, step);
-          setCompletedSteps(step);
+          setCurrentStep(step);
         };
         const hash: string = await mintAndLock(
           signer,
@@ -47,10 +50,11 @@ const MintingFormControl = () => {
           handleStepChange
         );
         monitorTx(hash);
-        setCompletedSteps(0);
+        setTxSent(hash);
+        setCurrentStep(0);
       } catch (e) {
-        notifyTxCancelled(notify, e.message);
-        setCompletedSteps(0);
+        setTxRejected(true);
+        setCurrentStep(0);
       }
     }
   };
@@ -62,7 +66,7 @@ const MintingFormControl = () => {
     return (
       !value ||
       value === '0' ||
-      completedSteps > 0 ||
+      currentStep > 0 ||
       Number(value) > Number(tokens[lpTokenAddress].balance)
     );
   };
@@ -116,12 +120,6 @@ const MintingFormControl = () => {
             </Box>
           </Box>
         </Box>
-        {completedSteps > 0 && (
-          <Box mb={4}>
-            Signed <strong>{completedSteps}</strong> of <strong>3</strong>{' '}
-            transactions
-          </Box>
-        )}
       </LightMode>
       <Button
         size='lg'
@@ -131,6 +129,9 @@ const MintingFormControl = () => {
       >
         Mint a crucible
       </Button>
+      {txSent && <TxSentModal onClose={() => setTxSent('')} hash={txSent} />}
+      {txRejected && <TxRejectedModal onClose={() => setTxRejected(false)} />}
+      {currentStep > 0 && <TxProgressModal step={currentStep} />}
     </Box>
   );
 };

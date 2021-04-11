@@ -15,7 +15,6 @@ type NotifyContextProps = {
 
 type Web3ContextType = {
   monitorTx(hash: string): Promise<void>;
-  notify: NotifyAPI | undefined;
 };
 
 const NotifyContext = React.createContext<Web3ContextType | undefined>(
@@ -58,7 +57,6 @@ const NotifyProvider = ({ children }: NotifyContextProps) => {
     <NotifyContext.Provider
       value={{
         monitorTx,
-        notify,
       }}
     >
       {children}
